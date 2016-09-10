@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.desy.todoapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".MainNoteActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".NoteDetailActivity"
+            android:label="@string/title_activity_make_note">
+        </activity>
+
+
+        <provider
+            android:name=".database.NotesProvider"
+            android:authorities="com.example.desy.todoapp"
+            android:exported="true"
+            android:readPermission="com.example.desy.todoapp.READWRITE"
+            android:writePermission="com.example.desy.todoapp.READWRITE"/>
+    </application>
+
+</manifest>

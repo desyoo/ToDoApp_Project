@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:flickr="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.example.desy.personalnotes.MainActivity">
+
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_add"
+        flickr:showAsAction="always"
+        android:title="@string/action_delete" />
+
+</menu>

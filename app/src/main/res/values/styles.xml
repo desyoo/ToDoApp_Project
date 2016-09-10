@@ -1,0 +1,38 @@
+<resources>
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/notesPrimaryBackgroundColor</item>
+        <item name="colorPrimaryDark">@color/notesSecondaryBackgroundColor</item>
+        <item name="colorAccent">@color/notesColorBackgroundAccent</item>
+    </style>
+
+    <style name="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+    <style name="Theme.PersonalNotes" parent="AppTheme.NoActionBar"/>
+
+    <style name="ActionBarThemeOverlay" parent="">
+        <item name="android:textColorPrimary">@color/notesPrimaryTextColor</item>
+        <item name="colorControlHighlight">@color/notesBackgroundColor</item>
+        <item name="android:actionMenuTextColor">@color/notesPrimaryTextColor</item>
+        <item name="android:textColorSecondary">@color/notesPrimaryTextColor</item>
+        <item name="android:background">@color/notesPrimaryBackgroundColor</item>
+    </style>
+
+    <style name="ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/notesPrimaryTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+</resources>

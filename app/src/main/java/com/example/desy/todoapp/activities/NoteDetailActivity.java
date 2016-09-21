@@ -254,19 +254,6 @@ Log.d(TAG,date + "  dan test");
         } 
     }
 
-    private Calendar getTargetTime() {
-        Calendar calNow = Calendar.getInstance();
-        Calendar calSet = (Calendar) calNow.clone();
-        calSet.set(Calendar.MONTH, sMonth);
-        calSet.set(Calendar.YEAR, sYear);
-        calSet.set(Calendar.DAY_OF_MONTH, sDay);
-        calSet.set(Calendar.MILLISECOND, 0);
-        if (calSet.compareTo(calNow) <= 0) {
-            calSet.add(Calendar.DATE, 1);
-        }
-
-        return calSet;
-    }
 
 
     private int insertNote(ContentValues values) {

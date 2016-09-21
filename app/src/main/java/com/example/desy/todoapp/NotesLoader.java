@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import com.example.desy.todoapp.database.NotesContract;
 import com.example.desy.todoapp.models.Note;
@@ -74,20 +75,22 @@ public class NotesLoader extends AsyncTaskLoader<List<Note>> {
     private String setPriority(String date) {
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
+        int mMonth = c.get(Calendar.MONTH) + 1;
         int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
 
         if (date.length() > 0 && !date.equals("") && !date.equals(getContext().getString(R.string.Today))) {
             String[] calendar = date.split("/");
-
+            Log.d("NotesLoader ", String.format("Year: %s, Month: %s, Days: %s", calendar[2],calendar[0],calendar[1]));
             if (Integer.parseInt(calendar[2]) >= mYear) {
                 if (Integer.parseInt(calendar[0]) >= mMonth) {
                     int diffDays = Integer.parseInt(calendar[1]) - mDay;
-                    if (diffDays > 1 && diffDays < 4) {
+                    if (diffDays > 1 && diffDays < 4 && Integer.parseInt(calendar[0]) == mMonth) {
                         return getContext().getString(R.string.High_Priority);
-                    } else if (diffDays >= 4 && diffDays < 8){
+                    } else if (diffDays >= 4 && diffDays < 8 && Integer.parseInt(calendar[0]) == mMonth){
                         return getContext().getString(R.string.Medium_Priority);
-                    } else if (diffDays < 0){
+                    } else if (diffDays < 0 && Integer.parseInt(calendar[0]) <= mMonth){
                         return getContext().getString(R.string.Done_Priority);
                     } else {
                         return getContext().getString(R.string.Low_Priority);

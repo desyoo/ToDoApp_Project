@@ -58,9 +58,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteHolder> 
                 holder.mDate.setTextColor(ContextCompat.getColor(mContext,R.color.notesSecondaryTextColor));
             }
             holder.mDate.setText(mNotes.get(position).getDate());
-
+            holder.mPriority.setVisibility(View.VISIBLE);
         } else {
             holder.mDate.setVisibility(View.GONE);
+            holder.mPriority.setVisibility(View.GONE);
         }
 
         Log.d("NotesAdapter", mNotes.get(position).getDate());
@@ -96,7 +97,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteHolder> 
 
     public class NoteHolder extends RecyclerView.ViewHolder {
 
-        TextView mTitle, mDescription, mDate, mId;
+        TextView mTitle, mDescription, mDate, mId, mPriority;
         ImageView mImage;
         LinearLayout mLinearLayout;
 
@@ -108,6 +109,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteHolder> 
             mLinearLayout = (LinearLayout) itemView.findViewById(R.id.home_list);
             mDate = (TextView) itemView.findViewById(R.id.date_time_note_custom_home);
             mImage = (ImageView) itemView.findViewById(R.id.image_note_custom_home);
+            mPriority = (TextView) itemView.findViewById(R.id.priority);
+
         }
     }
 }

@@ -28,7 +28,6 @@ public class NotesDbHelper extends SQLiteOpenHelper {
                 NotesEntry.NOTES_TITLE + " TEXT NOT NULL, " +
                 NotesEntry.NOTES_DESCRIPTION + " TEXT NOT NULL, " +
                 NotesEntry.NOTES_DATE + " TEXT NOT NULL, " +
-                NotesEntry.NOTES_TIME + " TEXT NOT NULL, " +
                 NotesEntry.NOTES_IMAGE + " TEXT NOT NULL)";
 
         db.execSQL(SQL_CREATE_NOTES_TABLE);

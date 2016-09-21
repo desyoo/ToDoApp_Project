@@ -1,8 +1,7 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +20,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
+import com.example.desy.todoapp.NoteCustomList;
+import com.example.desy.todoapp.R;
 import com.example.desy.todoapp.database.NotesContract;
+import com.example.desy.todoapp.models.Note;
+import com.example.desy.todoapp.utils.AppConstant;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -42,7 +43,7 @@ public class NoteDetailActivity extends BaseActivity {
     public static final int TAKE_GALLERY_CODE = 1;
     private static int sMonth, sYear, sHour, sDay, sMinute, sSecond;
     private static TextView sDateTextView, sTimeTextView;
-    private static Button adf;
+    private static ImageView dateTimeDeleteImageView;
     private static boolean sIsInAuth;
     private static String sTmpFlNm;
     private String mCameraFileName;
@@ -80,29 +81,40 @@ public class NoteDetailActivity extends BaseActivity {
         mNoteImage = (ImageView) findViewById(R.id.image_make_note);
         mDescriptionEditText = (EditText) findViewById(R.id.make_note_detail);
         sDateTextView = (TextView) findViewById(R.id.date_textview_make_note);
-        sTimeTextView = (TextView) findViewById(R.id.time_textview_make_note);
+
         ImageView datePickerImageView = (ImageView) findViewById(R.id.date_picker_button);
-        final ImageView dateTimeDeleteImageView = (ImageView) findViewById(R.id.delete_make_note);
+        dateTimeDeleteImageView = (ImageView) findViewById(R.id.delete_make_note);
 
-//        dateTimeDeleteImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                sDateTextView.setText("");
-//                sTimeTextView.setText(AppConstant.NO_TIME);
-//            }
-//        });
+        setDateTimeVisibility();
 
-//        datePickerImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AppDatePickerDialog datePickerDialog = new AppDatePickerDialog();
-//                datePickerDialog.show(getSupportFragmentManager(), AppConstant.DATE_PICKER);
-//            }
-//        });
+        dateTimeDeleteImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sDateTextView.setText("");
+                setDateTimeVisibility();
+            }
+        });
+
+        datePickerImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppDatePickerDialog datePickerDialog = new AppDatePickerDialog();
+                datePickerDialog.show(getSupportFragmentManager(), AppConstant.DATE_PICKER);
+            }
+        });
 
     }
 
 
+    private void setDateTimeVisibility() {
+        if (sDateTextView.getText().toString().length() < 1) {
+            sDateTextView.setVisibility(View.GONE);
+            dateTimeDeleteImageView.setVisibility(View.GONE);
+        } else {
+            sDateTextView.setVisibility(View.VISIBLE);
+            dateTimeDeleteImageView.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void setUpIfEditing() {
         if (getIntent().getStringExtra(AppConstant.ID) != null) {
@@ -120,8 +132,7 @@ public class NoteDetailActivity extends BaseActivity {
                 NotesContract.NotesEntry.NOTES_TITLE,
                 NotesContract.NotesEntry.NOTES_DESCRIPTION,
                 NotesContract.NotesEntry.NOTES_DATE,
-                NotesContract.NotesEntry.NOTES_IMAGE,
-                NotesContract.NotesEntry.NOTES_TIME};
+                NotesContract.NotesEntry.NOTES_IMAGE};
         // Query database - check parameters to return only partial records.
         Uri r = NotesContract.NotesEntry.URI_TABLE;
         String selection = NotesContract.NotesEntry.NOTE_ID + " = " + id;
@@ -131,15 +142,13 @@ public class NoteDetailActivity extends BaseActivity {
                 do {
                     String title = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.NOTES_TITLE));
                     String description = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.NOTES_DESCRIPTION));
-                    String time = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.NOTES_TIME));
                     String date = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.NOTES_DATE));
                     String image = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.NOTES_IMAGE));
-
+Log.d(TAG,date + "  dan test");
                     mTitleEditText.setText(title);
 
                     mDescriptionEditText.setText(description);
 
-                    sTimeTextView.setText(time);
                     sDateTextView.setText(date);
                     mImagePath = image;
                     if (!image.equals(AppConstant.NO_IMAGE)) {
@@ -150,14 +159,14 @@ public class NoteDetailActivity extends BaseActivity {
                 } while (cursor.moveToNext());
             }
         }
-
+        setDateTimeVisibility();
     }
 
     private void setValues(Note note) {
         getSupportActionBar().setTitle(AppConstant.REMINDERS);
         String title = note.getTitle();
         String description = note.getDescription();
-        String time = note.getTime();
+        //String time = note.getTime();
         String date = note.getDate();
         String image = note.getImagePath();
 
@@ -165,7 +174,7 @@ public class NoteDetailActivity extends BaseActivity {
 
         mDescriptionEditText.setText(description);
 
-        sTimeTextView.setText(time);
+        //sTimeTextView.setText(time);
         sDateTextView.setText(date);
         mImagePath = image;
 
@@ -195,25 +204,26 @@ public class NoteDetailActivity extends BaseActivity {
     private void editForSaveInDevice() {
         ContentValues values = createContentValues(mImagePath, false);
         updateNote(values);
-        createNoteAlarm(values, Integer.parseInt(mId));
+        //createNoteAlarm(values, Integer.parseInt(mId));
     }
 
     private void saveInDevice() {
         ContentValues values = createContentValues(mImagePath,  true);
         int id = insertNote(values);
         mId = id + "";
-        createNoteAlarm(values, id);
+        //createNoteAlarm(values, id);
     }
 
 
     private ContentValues createContentValues(String noteImage,  boolean isSave) {
         if(noteImage == null || noteImage.equals("")) {
             noteImage = AppConstant.NO_IMAGE;
+        } else if (sDateTextView.getText() == "") {
+
         }
         ContentValues values = new ContentValues();
         values.put(NotesContract.NotesEntry.NOTES_TITLE, mTitleEditText.getText().toString().toUpperCase());
         values.put(NotesContract.NotesEntry.NOTES_DATE, sDateTextView.getText().toString());
-        values.put(NotesContract.NotesEntry.NOTES_TIME, sTimeTextView.getText().toString());
         if(mIsImageSet || isSave) {
             values.put(NotesContract.NotesEntry.NOTES_IMAGE, noteImage);
         }
@@ -237,8 +247,7 @@ public class NoteDetailActivity extends BaseActivity {
         if(!sTimeTextView.getText().toString().equals(AppConstant.NO_TIME)) {
             Note note = new Note(id, values.getAsString(NotesContract.NotesEntry.NOTES_TITLE),
                     values.getAsString(NotesContract.NotesEntry.NOTES_DESCRIPTION),
-                    values.getAsString(NotesContract.NotesEntry.NOTES_DATE),
-                    values.getAsString(NotesContract.NotesEntry.NOTES_TIME)
+                    values.getAsString(NotesContract.NotesEntry.NOTES_DATE)
                     );
             note.setImagePath(values.getAsString(NotesContract.NotesEntry.NOTES_IMAGE));
             //setAlarm(getTargetTime(), note);
@@ -251,9 +260,6 @@ public class NoteDetailActivity extends BaseActivity {
         calSet.set(Calendar.MONTH, sMonth);
         calSet.set(Calendar.YEAR, sYear);
         calSet.set(Calendar.DAY_OF_MONTH, sDay);
-        calSet.set(Calendar.HOUR_OF_DAY, sHour);
-        calSet.set(Calendar.MINUTE, sMinute);
-        calSet.set(Calendar.SECOND, sSecond);
         calSet.set(Calendar.MILLISECOND, 0);
         if (calSet.compareTo(calNow) <= 0) {
             calSet.add(Calendar.DATE, 1);
@@ -266,6 +272,7 @@ public class NoteDetailActivity extends BaseActivity {
     private int insertNote(ContentValues values) {
         ContentResolver contentResolver = getContentResolver();
         Uri uri = Uri.parse(NotesContract.BASE_CONTENT_URI + "/notes");
+        Log.d(TAG,contentResolver.toString());
         Uri returned = contentResolver.insert(uri, values);
         String[] temp = returned.toString().split("/");
         return Integer.parseInt(temp[temp.length-1]);
@@ -276,6 +283,7 @@ public class NoteDetailActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(NoteDetailActivity.this, MainNoteActivity.class));
+        finish();
     }
 
 
@@ -289,7 +297,6 @@ public class NoteDetailActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 
@@ -321,64 +328,37 @@ public class NoteDetailActivity extends BaseActivity {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
+            Calendar c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
-            tempMonth = c.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.UK);
+            tempMonth = c.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
             return new DatePickerDialog(getActivity(), this, mYear, mMonth, mDay);
         }
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            monthOfYear++;
             if(year == mYear) {
-                if(monthOfYear == mMonth) {
+                if(monthOfYear == mMonth + 1) {
                     if(dayOfMonth == mDay) {
                         sDateTextView.setText(AppConstant.TODAY);
                     } else {
-                        sDateTextView.setText(dayOfMonth + " " + sMonth);
+                        sDateTextView.setText(monthOfYear + "/" + dayOfMonth + "/" + year);
                     }
                 } else {
-                    sDateTextView.setText(dayOfMonth + " " + sMonth);
+                    sDateTextView.setText(monthOfYear + "/" + dayOfMonth + "/" + year);
                 }
             } else {
-                sDateTextView.setText(dayOfMonth + " " + sMonth + " " + year);
+                sDateTextView.setText(monthOfYear + "/" + dayOfMonth + "/" + year);
             }
+
             sYear = year;
             sMonth = monthOfYear;
             sDay = dayOfMonth;
-            AppTimePickerDialog timePickerDialog = new AppTimePickerDialog();
-            timePickerDialog.show(getFragmentManager(), AppConstant.DATE_PICKER);
+            sDateTextView.setVisibility(View.VISIBLE);
+            dateTimeDeleteImageView.setVisibility(View.VISIBLE);
         }
     }
-
-
-    public static class AppTimePickerDialog extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-        private int mHour, mMinute;
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
-            return new TimePickerDialog(getActivity(), this, mHour, mMinute, DateFormat.is24HourFormat(getActivity()));
-        }
-
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            if(minute <10) {
-                sTimeTextView.setText(hourOfDay + ":0" + minute);
-            } else {
-                sTimeTextView.setText(hourOfDay + ":" + minute);
-            }
-            sHour = hourOfDay;
-            sMinute = minute;
-            sSecond = 0;
-        }
-    }
-
-
 
 }

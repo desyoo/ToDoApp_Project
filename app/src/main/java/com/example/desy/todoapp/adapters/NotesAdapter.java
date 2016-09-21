@@ -1,6 +1,7 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.desy.todoapp.R;
+import com.example.desy.todoapp.models.Note;
+import com.example.desy.todoapp.utils.AppConstant;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,14 +46,24 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteHolder> 
 
         holder.mDescription.setText(mNotes.get(position).getDescription());
 
+        if (!mNotes.get(position).getDate().equals("")) {
+            String temp = mNotes.get(position).getDate();
+            if (temp.equals(mContext.getString(R.string.High_Priority))) {
+                holder.mDate.setTextColor(ContextCompat.getColor(mContext,R.color.colorAccent));
+            } else if (temp.equals(mContext.getString(R.string.Medium_Priority))) {
+                holder.mDate.setTextColor(ContextCompat.getColor(mContext,R.color.notesColorBackgroundAccent));
+            } else if (temp.equals(mContext.getString(R.string.Low_Priority))) {
+                holder.mDate.setTextColor(ContextCompat.getColor(mContext,R.color.notesPrimaryBackgroundColor));
+            } else if (temp.equals(mContext.getString(R.string.Done_Priority))) {
+                holder.mDate.setTextColor(ContextCompat.getColor(mContext,R.color.notesSecondaryTextColor));
+            }
+            holder.mDate.setText(mNotes.get(position).getDate());
 
-        if (mNotes.get(position).getDate() != "" && mNotes.get(position).getTime() != "") {
-            holder.mDate.setText(mNotes.get(position).getDate() + " " + mNotes.get(position).getTime());
         } else {
             holder.mDate.setVisibility(View.GONE);
         }
 
-        Log.d("NotesAdapter", mNotes.get(position).getDate() + " --- " + mNotes.get(position).getTime());
+        Log.d("NotesAdapter", mNotes.get(position).getDate());
 
         // Display an image, but only if we have one to display.
         if (mNotes.get(position).getBitmap() != null) {

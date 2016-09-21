@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MainNoteActivity">
+        <activity android:name=".activities.MainNoteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NoteDetailActivity"
+            android:name=".activities.NoteDetailActivity"
             android:label="@string/title_activity_make_note">
         </activity>
 

@@ -1,4 +1,4 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.utils;
 
 /**
  * Created by desy on 6/7/16.

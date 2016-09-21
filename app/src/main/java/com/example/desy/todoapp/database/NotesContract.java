@@ -30,7 +30,6 @@ public class NotesContract {
         public static final String NOTES_TITLE = "notes_title";
         public static final String NOTES_DESCRIPTION = "notes_description";
         public static final String NOTES_DATE = "note_date";
-        public static final String NOTES_TIME = "notes_time";
         public static final String NOTES_IMAGE = "notes_image";
 
         public static Uri buildNoteUri(String noteId) {

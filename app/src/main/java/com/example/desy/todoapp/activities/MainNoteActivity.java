@@ -1,4 +1,4 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.activities;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -20,6 +20,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.desy.todoapp.utils.AppConstant;
+import com.example.desy.todoapp.models.Note;
+import com.example.desy.todoapp.adapters.NotesAdapter;
+import com.example.desy.todoapp.NotesLoader;
+import com.example.desy.todoapp.R;
+import com.example.desy.todoapp.RecyclerItemClickListener;
 import com.example.desy.todoapp.database.NotesContract;
 
 import java.util.ArrayList;

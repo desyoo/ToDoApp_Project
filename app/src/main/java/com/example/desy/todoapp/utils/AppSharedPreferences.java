@@ -1,7 +1,9 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.desy.todoapp.utils.AppConstant;
 
 /**
  * Created by desy on 6/7/16.

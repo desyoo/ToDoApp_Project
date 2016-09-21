@@ -1,4 +1,4 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.models;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,17 +7,16 @@ import android.graphics.BitmapFactory;
  * Created by desy on 8/30/16.
  */
 public class Note {
-    private String mTitle, mDescription, mDate, mTime, mImagePath;
+    private String mTitle, mDescription, mDate, mImagePath;
     private int mId;
     private Bitmap mBitmap;
     private boolean mHasNoImage = false;
 
-    public Note (int mId, String mTitle, String mDescription, String mDate, String mTime) {
+    public Note (int mId, String mTitle, String mDescription, String mDate) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mDescription = mDescription;
         this.mDate = mDate;
-        this.mTime = mTime;
     }
 
 
@@ -32,13 +31,13 @@ public class Note {
 
         this.mId = Integer.parseInt(fields[0]);
         this.mTitle = fields[1];
-        this.mTime = fields[2];
-        this.mImagePath = fields[3];
-        this.mDate = fields[4];
+        //this.mTime = fields[2];
+        this.mImagePath = fields[2];
+        this.mDate = fields[3];
 
 
         this.mDescription = fields[7];
-        Note aNote = new Note(this.mId, this.mTitle, this.mDescription, this.mDate, this.mTime);
+        Note aNote = new Note(this.mId, this.mTitle, this.mDescription, this.mDate);
             // Previous constructor does not set this, so we do it manually after invoking
             // the constructor
         aNote.setImagePath(this.mImagePath);
@@ -88,14 +87,6 @@ public class Note {
 
     public void setDate(String date) {
         mDate = date;
-    }
-
-    public String getTime() {
-        return mTime;
-    }
-
-    public void setTime(String time) {
-        mTime = time;
     }
 
     public int getId() {

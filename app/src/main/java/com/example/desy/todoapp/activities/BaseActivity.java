@@ -1,7 +1,10 @@
-package com.example.desy.todoapp;
+package com.example.desy.todoapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.example.desy.todoapp.utils.AppConstant;
+import com.example.desy.todoapp.R;
 
 /**
  * Created by desy on 8/30/16.

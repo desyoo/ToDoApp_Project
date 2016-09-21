@@ -11,4 +11,9 @@
     <string name="description">Description</string>
     <string name="NO_TIME">No time</string>
     <string name="title_activity_make_note">Make Note</string>
+    <string name="High_Priority">High</string>
+    <string name="Medium_Priority">Medium</string>
+    <string name="Low_Priority">Low</string>
+    <string name="Done_Priority">Done</string>
+    <string name="Today">TODAY</string>
 </resources>

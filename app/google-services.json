@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "880324046499",
+    "firebase_url": "https://codepathnoteapp.firebaseio.com",
+    "project_id": "codepathnoteapp",
+    "storage_bucket": "codepathnoteapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880324046499:android:6a22496d1b2eb83f",
+        "android_client_info": {
+          "package_name": "com.example.desy.todoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880324046499-98v0tpe0e5aftbqkjic66o42ufdfiitn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.desy.todoapp",
+            "certificate_hash": "79F52F1085F35DCF7C0D4F92EB21E0AC35600C09"
+          }
+        },
+        {
+          "client_id": "880324046499-neqcvha834id2rv0fkd3bij4ipv9pbgg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmFeI12Bg0sGFzw1UfF9y4aDqv55cP-tc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880324046499-neqcvha834id2rv0fkd3bij4ipv9pbgg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

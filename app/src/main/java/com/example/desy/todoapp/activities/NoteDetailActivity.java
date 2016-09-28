@@ -1,9 +1,12 @@
 package com.example.desy.todoapp.activities;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.desy.todoapp.AlarmReceiver;
 import com.example.desy.todoapp.NoteCustomList;
 import com.example.desy.todoapp.R;
 import com.example.desy.todoapp.database.NotesContract;
@@ -211,7 +215,7 @@ Log.d(TAG,date + "  dan test");
         ContentValues values = createContentValues(mImagePath,  true);
         int id = insertNote(values);
         mId = id + "";
-        //createNoteAlarm(values, id);
+        createNoteAlarm(values, id);
     }
 
 
@@ -244,16 +248,34 @@ Log.d(TAG,date + "  dan test");
     }
 
     private void createNoteAlarm(ContentValues values, int id) {
-        if(!sTimeTextView.getText().toString().equals(AppConstant.NO_TIME)) {
+        if(sDateTextView.getText().toString().length() > 0) {
             Note note = new Note(id, values.getAsString(NotesContract.NotesEntry.NOTES_TITLE),
                     values.getAsString(NotesContract.NotesEntry.NOTES_DESCRIPTION),
                     values.getAsString(NotesContract.NotesEntry.NOTES_DATE)
                     );
             note.setImagePath(values.getAsString(NotesContract.NotesEntry.NOTES_IMAGE));
-            //setAlarm(getTargetTime(), note);
-        } 
+            setAlarm(getTargetTime(), note);
+        }
     }
 
+    private Calendar getTargetTime() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, sMonth);
+        cal.set(Calendar.YEAR, sYear);
+        cal.set(Calendar.DAY_OF_MONTH, sDay);
+        return cal;
+    }
+
+
+    private void setAlarm(Calendar targetCal, Note note) {
+        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra(AppConstant.REMINDER, note.getDescription());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                note.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+    }
 
 
     private int insertNote(ContentValues values) {

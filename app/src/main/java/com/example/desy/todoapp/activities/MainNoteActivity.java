@@ -20,13 +20,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.desy.todoapp.utils.AppConstant;
-import com.example.desy.todoapp.models.Note;
-import com.example.desy.todoapp.adapters.NotesAdapter;
-import com.example.desy.todoapp.NotesLoader;
+import com.example.desy.todoapp.loader.NotesLoader;
 import com.example.desy.todoapp.R;
-import com.example.desy.todoapp.RecyclerItemClickListener;
+import com.example.desy.todoapp.listener.RecyclerItemClickListener;
+import com.example.desy.todoapp.adapters.NotesAdapter;
 import com.example.desy.todoapp.database.NotesContract;
+import com.example.desy.todoapp.models.Note;
+import com.example.desy.todoapp.utils.AppConstant;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class MainNoteActivity extends BaseActivity implements LoaderManager.Load
         activateToolbar();
         setUpRecyclerView();
 
+        System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
     }
 
 
